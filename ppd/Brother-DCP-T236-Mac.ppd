@@ -1,0 +1,50 @@
+*PPD-Adobe: "4.3"
+*FormatVersion: "4.3"
+*FileVersion: "0.2"
+*LanguageVersion: English
+*LanguageEncoding: ISOLatin1
+*PCFileName: "BRT236.PPD"
+*Manufacturer: "Brother"
+*Product: "(Brother DCP-T236)"
+*ModelName: "Brother DCP-T236 Mac USB"
+*ShortNickName: "Brother DCP-T236 Mac USB"
+*NickName: "Brother DCP-T236 Mac USB"
+*PSVersion: "(3010.000) 0"
+*LanguageLevel: "3"
+*FileSystem: False
+*ColorDevice: True
+*DefaultColorSpace: RGB
+*cupsVersion: 2.3
+*cupsMaxCopies: 99
+*cupsManualCopies: False
+*cupsSNMPSupplies: False
+*cupsIPPSupplies: False
+*cupsFilter2: "application/pdf application/pdf 0 -"
+*Throughput: "10"
+*LandscapeOrientation: Plus90
+*DefaultOutputOrder: Normal
+*OpenUI *PageSize/Paper Size: PickOne
+*OrderDependency: 10 AnySetup *PageSize
+*DefaultPageSize: A4
+*PageSize A4/A4: "<</PageSize[595.2756 841.8898]>>setpagedevice"
+*CloseUI: *PageSize
+*OpenUI *PageRegion/Paper Region: PickOne
+*OrderDependency: 10 AnySetup *PageRegion
+*DefaultPageRegion: A4
+*PageRegion A4/A4: "<</PageSize[595.2756 841.8898]>>setpagedevice"
+*CloseUI: *PageRegion
+*DefaultImageableArea: A4
+*ImageableArea A4: "8.5039 8.5039 586.7717 833.3858"
+*DefaultPaperDimension: A4
+*PaperDimension A4: "595.2756 841.8898"
+*OpenUI *Resolution/Resolution: PickOne
+*OrderDependency: 10 AnySetup *Resolution
+*DefaultResolution: 300dpi
+*Resolution 300dpi/300 dpi: "<</HWResolution[300 300]>>setpagedevice"
+*CloseUI: *Resolution
+*OpenUI *ColorModel/Color: PickOne
+*OrderDependency: 10 AnySetup *ColorModel
+*DefaultColorModel: RGB
+*ColorModel RGB/Color: "<</cupsColorSpace 19/cupsBitsPerColor 8/cupsColorOrder 0>>setpagedevice"
+*ColorModel Gray/Black and White: "<</cupsColorSpace 18/cupsBitsPerColor 8/cupsColorOrder 0>>setpagedevice"
+*CloseUI: *ColorModel

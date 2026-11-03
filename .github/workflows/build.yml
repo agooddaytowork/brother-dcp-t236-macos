@@ -1,0 +1,76 @@
+name: Build and test macOS driver
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+jobs:
+  build:
+    name: macOS / ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14
+            arch: arm64
+          - os: macos-15-intel
+            arch: x86_64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.14'
+      - name: Install test dependencies
+        run: |
+          brew list --versions libusb >/dev/null || brew install libusb
+          python3 -m pip install -r requirements.txt
+      - name: Build native helper and run offline checks
+        run: |
+          make test ARCH=${{ matrix.arch }}
+          file build/brother-t236-print
+          lipo -verify_arch ${{ matrix.arch }} build/brother-t236-print
+          codesign --verify --strict build/brother-t236-print
+          bash -n install.command uninstall.command scripts/install.sh
+      - name: Package source and native helper
+        run: make package ARCH=${{ matrix.arch }}
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: driver-${{ matrix.arch }}
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 14
+
+  release:
+    name: Publish tagged release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: write
+    steps:
+      - name: Download tested build artifacts and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          gh run download "$RUN_ID" --dir artifacts
+          cat artifacts/*/*.sha256 > artifacts/SHA256SUMS
+          gh release create "$TAG" artifacts/*/*.tar.gz artifacts/SHA256SUMS --title "$TAG — macOS USB print and scan" --generate-notes

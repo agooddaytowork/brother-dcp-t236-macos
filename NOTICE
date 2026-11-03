@@ -1,0 +1,23 @@
+Brother DCP-T236 macOS USB print and scan bridge
+Copyright (C) 2026 agooddaytowork and contributors
+SPDX-License-Identifier: GPL-2.0-or-later
+
+This repository is distributed under the GNU General Public License,
+version 2 or, at your option, any later version. See LICENSE.
+
+src/scanner/t236scan.py is adapted from scanner/t230scan.py by farafonoff:
+https://github.com/farafonoff/Brother-DCP-T230-MacOS-driver
+Upstream commit: 1c70c5c799f2b18964e137d520ab15c9cd40a075
+Upstream scanner README explicitly offers the Python/C scanner code under
+GPL v2 or later. See third_party/scanner-provenance.md.
+
+Changes include the DCP-T236 USB product ID, block-aligned scan dimensions,
+and selection of the configured USB serial number.
+
+Apple frameworks, CUPS, Python, libusb, libusb1 and Pillow are separate
+dependencies with their respective licenses. Release archives do not bundle
+the Python runtime, Python wheels, libusb, or Brother proprietary binaries.
+
+Brother and Brother DCP-T236 are trademarks of Brother Industries, Ltd.
+This project is independent and is not affiliated with or endorsed by Brother.
+Documentation screenshots show macOS user interfaces, copyright Apple Inc.
