@@ -86,7 +86,7 @@ def install(args):
     for program in ['/usr/bin/ippeveprinter', '/usr/libexec/cups/backend/usb']:
         if not os.access(program, os.X_OK):
             raise RuntimeError(f'Required macOS component is missing: {program}')
-    run(['/usr/bin/lipo', '-verify_arch', platform.machine(), binary], capture_output=True)
+    run(['/usr/bin/lipo', binary, '-verify_arch', platform.machine()], capture_output=True)
     existing = queue_uri()
     if existing and existing != URI:
         raise RuntimeError(f'{QUEUE} belongs to another driver. Rename/remove that queue in System Settings first. No changes made.')

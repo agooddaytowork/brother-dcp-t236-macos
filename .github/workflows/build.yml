@@ -42,7 +42,7 @@ jobs:
         run: |
           make test ARCH=${{ matrix.arch }}
           file build/brother-t236-print
-          lipo -verify_arch ${{ matrix.arch }} build/brother-t236-print
+          lipo build/brother-t236-print -verify_arch ${{ matrix.arch }}
           codesign --verify --strict build/brother-t236-print
           bash -n install.command uninstall.command scripts/install.sh
       - name: Package source and native helper
